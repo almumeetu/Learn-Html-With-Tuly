@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Challenge - EduHTML</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo-area">
+                    <a href="index.html">EduHTML <span data-translate="logo-subtitle">v1.0</span></a>
+                </div>
+                <nav class="menu-area">
+                    <ul>
+                        <li><a href="index.html" data-translate="nav-dashboard">Dashboard</a></li>
+                        <li><a href="lessons.html" data-translate="nav-lessons">Lessons</a></li>
+                        <li><a href="playground.html" data-translate="nav-playground">Playground</a></li>
+                        <li><a href="box-model.html" data-translate="nav-box-model">Box Model</a></li>
+                        <li><a href="quiz.html" data-translate="nav-quiz">Quiz</a></li>
+                    </ul>
+                </nav>
+                <div style="display: flex; align-items: center;">
+                    <div class="lang-switch-wrapper">
+                        <button class="lang-switch-btn" id="lang-switch-btn">🌐 <span id="lang-switch-btn-text">বাংলা</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button><a href="playground.html" data-translate="btn-start-coding">Start Coding</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container quiz-container">
+        <!-- Progress Bar -->
+        <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quiz-progress"></div>
+        </div>
+
+        <!-- Quiz Card -->
+        <div class="glass-card id-quiz-card" id="quiz-box">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;">
+                <span data-translate="quiz-header-label">Quiz Module</span>
+                <span id="question-counter">Question 1 of 10</span>
+            </div>
+            
+            <h2 id="question-text">Loading Question...</h2>
+
+            <div class="quiz-options" id="options-container">
+                <!-- Loaded dynamically -->
+            </div>
+
+            <!-- Correction Feedback -->
+            <div class="explanation-box" id="explanation-box"></div>
+
+            <div class="quiz-actions">
+                <a href="index.html" class="btn btn-outline" data-translate="btn-quit-quiz">Quit Quiz</a>
+                <button class="btn btn-primary" id="action-btn" disabled>Submit Answer</button>
+            </div>
+        </div>
+
+        <!-- Completion / Results Card (hidden by default) -->
+        <div class="glass-card results-card" id="results-box" style="display: none;">
+            <div class="results-score-circle" id="score-circle">10/10</div>
+            <h2 id="results-headline">Quiz Completed!</h2>
+            <p id="results-paragraph">Excellent work! You have answered all questions correctly and unlocked the Quiz Master badge.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-outline" onclick="restartQuiz()" data-translate="btn-retry-quiz">Retry Quiz</button>
+                <button class="btn btn-primary" id="claim-badge-btn" data-translate="btn-claim-badge">Claim Badge & Save Progress</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Set quiz page layout translations
+        if (typeof EduHTML !== 'undefined') {
+            Object.assign(EduHTML.translations.en, {
+                "quiz-header-label": "Quiz Module",
+                "btn-quit-quiz": "Quit Quiz",
+                "btn-retry-quiz": "Retry Quiz",
+                "btn-claim-badge": "Claim Badge & Save Progress"
+            });
+            Object.assign(EduHTML.translations.bn, {
+                "quiz-header-label": "কুইজ মডিউল",
+                "btn-quit-quiz": "কুইজ বন্ধ করো",
+                "btn-retry-quiz": "পুনরায় চেষ্টা করো",
+                "btn-claim-badge": "ব্যাজ সংগ্রহ করো ও সেভ করো"
+            });
+        }
+    </script>
+    <script src="assets/js/quiz.js"></script>
+</body>
+</html>

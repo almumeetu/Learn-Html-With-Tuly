@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons - EduHTML</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo-area">
+                    <a href="index.html">EduHTML <span data-translate="logo-subtitle">v1.0</span></a>
+                </div>
+                <nav class="menu-area">
+                    <ul>
+                        <li><a href="index.html" data-translate="nav-dashboard">Dashboard</a></li>
+                        <li><a href="lessons.html" data-translate="nav-lessons">Lessons</a></li>
+                        <li><a href="playground.html" data-translate="nav-playground">Playground</a></li>
+                        <li><a href="box-model.html" data-translate="nav-box-model">Box Model</a></li>
+                        <li><a href="quiz.html" data-translate="nav-quiz">Quiz</a></li>
+                    </ul>
+                </nav>
+                <div style="display: flex; align-items: center;">
+                    <div class="lang-switch-wrapper">
+                        <button class="lang-switch-btn" id="lang-switch-btn">🌐 <span id="lang-switch-btn-text">বাংলা</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button><a href="playground.html" data-translate="btn-start-coding">Start Coding</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container lessons-layout">
+        <!-- Lesson Navigation Top -->
+        <div class="lesson-navigation">
+            <a href="index.html" class="btn btn-outline" id="btn-back-dashboard">⬅️ Dashboard</a>
+            <div style="display: flex; gap: 0.5rem;">
+                <button id="prev-lesson-btn" class="btn btn-outline">Previous</button>
+                <button id="next-lesson-btn" class="btn btn-primary">Next Lesson ➡️</button>
+            </div>
+        </div>
+
+        <!-- Lesson Render Card -->
+        <div class="glass-card" style="padding: 2.5rem;">
+            <div class="lesson-header">
+                <div class="lesson-category" id="lesson-category">HTML Basics</div>
+                <h2 id="lesson-title">Loading Lesson...</h2>
+            </div>
+            
+            <div class="lesson-content" id="lesson-body">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Visual Preview Section -->
+            <div id="lesson-preview-container" style="margin-top: 2rem; display: none;">
+                <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--text-secondary);" id="label-output">💻 Rendered Output:</h4>
+                <div class="visual-preview" id="lesson-preview-box">
+                    <!-- HTML output renders here -->
+                </div>
+            </div>
+
+            <!-- Lesson Mini Quiz check -->
+            <div class="lesson-quiz-box" id="lesson-quiz-box" style="display: none;">
+                <h4 id="label-lesson-check">🧠 Lesson Check:</h4>
+                <p id="lesson-quiz-question">Question text?</p>
+                <div class="lesson-quiz-options" id="lesson-quiz-options">
+                    <!-- Dynamically populated options -->
+                </div>
+                <div id="lesson-quiz-feedback" style="margin-top: 1rem; font-weight: 600; font-size: 0.95rem; display: none;"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Translatable controls for back/output
+        const COMPONENT_TRANSLATIONS = {
+            en: {
+                "btn-back-dashboard": "⬅️ Dashboard",
+                "label-output": "💻 Rendered Output:",
+                "label-lesson-check": "🧠 Lesson Check:",
+                "btn-prev": "Previous",
+                "btn-next": "Next Lesson ➡️",
+                "btn-finish-quiz": "Take Final Quiz! 🏆"
+            },
+            bn: {
+                "btn-back-dashboard": "⬅️ ড্যাশবোর্ড",
+                "label-output": "💻 আউটপুট প্রিভিউ:",
+                "label-lesson-check": "🧠 লেসন যাচাই:",
+                "btn-prev": "পূর্ববর্তী",
+                "btn-next": "পরবর্তী লেসন ➡️",
+                "btn-finish-quiz": "কুইজে অংশ নাও! 🏆"
+            }
+        };
+
+        // Complete Bilingual Lesson Registry
+        const LESSON_DATA = {
+            'tags-basics': {
+                id: 'tags-basics',
+                next: 'formatting',
+                prev: '',
+                en: {
+                    category: 'HTML Basics',
+                    title: 'HTML Tag Basics',
+                    body: `
+                        <p>HTML stands for <strong>HyperText Markup Language</strong>. It is the core language used to structure pages on the web.</p>
+                        <p>HTML uses <strong>elements</strong> (represented by tags) to label pieces of content such as headings, paragraphs, and lists. Most tags have an opening tag and a closing tag with a forward slash.</p>
+                        <h3>Core Structure Tags</h3>
+                        <ul>
+                            <li><code>&lt;html&gt;</code>: The root element that wraps all content on the page.</li>
+                            <li><code>&lt;head&gt;</code>: Contains meta-information (like page title, styles, character set) which isn't shown directly on the webpage.</li>
+                            <li><code>&lt;body&gt;</code>: Contains all visible elements (paragraphs, titles, images, videos).</li>
+                        </ul>
+                        <h3>Basic Visible Elements</h3>
+                        <p>Let's look at the two most common structural elements: headings and paragraphs.</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">HTML Code</span>
+                            &lt;h1&gt;This is a Main Heading&lt;/h1&gt;<br>
+                            &lt;p&gt;This is a paragraph explaining our first project!&lt;/p&gt;
+                        </div>
+                    `,
+                    demoHtml: `<h1>This is a Main Heading</h1><p>This is a paragraph explaining our first project!</p>`,
+                    question: 'Which element wraps all visible content (like paragraphs and headers) of an HTML document?',
+                    options: [
+                        { text: '<head>', correct: false },
+                        { text: '<body>', correct: true },
+                        { text: '<html>', correct: false },
+                        { text: '<title>', correct: false }
+                    ],
+                    explanation: 'Correct! The &lt;body&gt; tag holds all the content that users see on the browser screen.'
+                },
+                bn: {
+                    category: 'এইচটিএমএল বেসিকস',
+                    title: 'এইচটিএমএল ট্যাগ পরিচিতি',
+                    body: `
+                        <p>HTML এর পূর্ণরূপ হল <strong>HyperText Markup Language</strong>। এটি একটি ওয়েব পেজ এর মূল কাঠামো তৈরি করতে ব্যবহৃত হয়।</p>
+                        <p>এইচটিএমএল বিভিন্ন <strong>এলিমেন্টস</strong> (ট্যাগ দ্বারা নির্দেশিত) ব্যবহার করে কন্টেন্ট চিহ্নিত করে; যেমন- হেডিংস, প্যারাগ্রাফ ইত্যাদি। অধিকাংশ ট্যাগেরই একটি শুরু এবং শেষ করার ট্যাগ থাকে।</p>
+                        <h3>মূল কাঠামো ট্যাগসমূহ</h3>
+                        <ul>
+                            <li><code>&lt;html&gt;</code>: এটি রুট এলিমেন্ট যা পুরো পেজের সমস্ত কন্টেন্টকে ধারণ করে।</li>
+                            <li><code>&lt;head&gt;</code>: পেজের মেটা-তথ্য (যেমন- পেজের শিরোনাম, স্টাইল ইত্যাদি) ধারণ করে, যা সরাসরি ব্রাউজারে প্রদর্শিত হয় না।</li>
+                            <li><code>&lt;body&gt;</code>: ব্রাউজার স্ক্রিনে দৃশ্যমান সকল কন্টেন্ট (হেডিং, প্যারাগ্রাফ, ইমেজ ইত্যাদি) ধারণ করে।</li>
+                        </ul>
+                        <h3>সাধারণ দৃশ্যমান এলিমেন্টস</h3>
+                        <p>চলুন সবচেয়ে সাধারণ দুটি ট্যাগ হেডিং ও প্যারাগ্রাফ দেখে নিই।</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">এইচটিএমএল কোড</span>
+                            &lt;h1&gt;এটি একটি মূল শিরোনাম&lt;/h1&gt;<br>
+                            &lt;p&gt;এটি আমাদের প্রথম প্রজেক্টের একটি প্যারাগ্রাফ!&lt;/p&gt;
+                        </div>
+                    `,
+                    demoHtml: `<h1>এটি একটি মূল শিরোনাম</h1><p>এটি আমাদের প্রথম প্রজেক্টের একটি প্যারাগ্রাফ!</p>`,
+                    question: 'এইচটিএমএল ডকুমেন্টের ব্রাউজারে দৃশ্যমান সমস্ত কন্টেন্ট কোন ট্যাগের ভেতর থাকে?',
+                    options: [
+                        { text: '<head>', correct: false },
+                        { text: '<body>', correct: true },
+                        { text: '<html>', correct: false },
+                        { text: '<title>', correct: false }
+                    ],
+                    explanation: 'সঠিক! &lt;body&gt; ট্যাগের ভেতরের অংশটুকুই ব্রাউজার স্ক্রিনে ব্যবহারকারীরা দেখতে পান।'
+                }
+            },
+            'formatting': {
+                id: 'formatting',
+                next: 'lists-tables',
+                prev: 'tags-basics',
+                en: {
+                    category: 'HTML Styling & Text',
+                    title: 'Text Formatting',
+                    body: `
+                        <p>To highlight, emphasize, or emphasize specific words, HTML provides several text formatting elements.</p>
+                        <h3>Common Formatting Elements</h3>
+                        <ul>
+                            <li><code>&lt;strong&gt;</code> (or <code>&lt;b&gt;</code>): Defines important text, rendered in bold.</li>
+                            <li><code>&lt;em&gt;</code> (or <code>&lt;i&gt;</code>): Defines emphasized text, rendered in italics.</li>
+                            <li><code>&lt;mark&gt;</code>: Defines highlighted text (like a yellow marker).</li>
+                            <li><code>&lt;code&gt;</code>: Defines inline code snippet using monospace font.</li>
+                        </ul>
+                        <div class="code-demo">
+                            <span class="code-demo-label">HTML Code</span>
+                            &lt;p&gt;Learning HTML is &lt;strong&gt;extremely important&lt;/strong&gt; for web design.&lt;/p&gt;<br>
+                            &lt;p&gt;Make sure to write &lt;em&gt;semantic&lt;/em&gt; tags!&lt;/p&gt;<br>
+                            &lt;p&gt;We can also &lt;mark&gt;highlight key topics&lt;/mark&gt;.&lt;/p&gt;
+                        </div>
+                    `,
+                    demoHtml: `<p>Learning HTML is <strong>extremely important</strong> for web design.</p><p>Make sure to write <em>semantic</em> tags!</p><p>We can also <mark>highlight key topics</mark>.</p>`,
+                    question: 'Which tag is used to italicize text with semantic emphasis?',
+                    options: [
+                        { text: '<bold>', correct: false },
+                        { text: '<strong>', correct: false },
+                        { text: '<em>', correct: true },
+                        { text: '<mark>', correct: false }
+                    ],
+                    explanation: 'Correct! The &lt;em&gt; tag italicizes text and provides structural emphasis for screen readers.'
+                },
+                bn: {
+                    category: 'এইচটিএমএল টেক্সট',
+                    title: 'টেক্সট ফরম্যাটিং',
+                    body: `
+                        <p>টেক্সটের কোনো গুরুত্বপূর্ণ অংশকে হাইলাইট, বোল্ড বা জোর দেয়ার জন্য এইচটিএমএল এ বিভিন্ন ফরম্যাটিং ট্যাগ রয়েছে।</p>
+                        <h3>সাধারণ ফরম্যাটিং ট্যাগসমূহ</h3>
+                        <ul>
+                            <li><code>&lt;strong&gt;</code> (অথবা <code>&lt;b&gt;</code>): গুরুত্বপূর্ণ কোনো লেখাকে বোল্ড (মোটা) করে দেখায়।</li>
+                            <li><code>&lt;em&gt;</code> (অথবা <code>&lt;i&gt;</code>): টেক্সটকে বাঁকা (ইটালিক) করে এর উপর জোর প্রদান করে।</li>
+                            <li><code>&lt;mark&gt;</code>: টেক্সটের ব্যাকগ্রাউন্ড হাইলাইট (হলুদ মার্কার পেন এর মত) করে।</li>
+                            <li><code>&lt;code&gt;</code>: ইনলাইন কোড স্নীপেট দেখানোর জন্য মনোস্পেস ফন্ট ব্যবহার করে।</li>
+                        </ul>
+                        <div class="code-demo">
+                            <span class="code-demo-label">এইচটিএমএল কোড</span>
+                            &lt;p&gt;এইচটিএমএল শেখা &lt;strong&gt;খুবই গুরুত্বপূর্ণ&lt;/strong&gt; ওয়েব ডিজাইনের জন্য।&lt;/p&gt;<br>
+                            &lt;p&gt;সব সময় &lt;em&gt;semantic&lt;/em&gt; ট্যাগ ব্যবহার করুন।&lt;/p&gt;
+                        </div>
+                    `,
+                    demoHtml: `<p>এইচটিএমএল শেখা <strong>খুবই গুরুত্বপূর্ণ</strong> ওয়েব ডিজাইনের জন্য।</p><p>সব সময় <em>semantic</em> ট্যাগ ব্যবহার করুন।</p>`,
+                    question: 'কোন ট্যাগের মাধ্যমে টেক্সটকে অর্থবহ গুরুত্বসহ বাঁকা (ইটালিক) করে দেখানো হয়?',
+                    options: [
+                        { text: '<bold>', correct: false },
+                        { text: '<strong>', correct: false },
+                        { text: '<em>', correct: true },
+                        { text: '<mark>', correct: false }
+                    ],
+                    explanation: 'সঠিক! &lt;em&gt; ট্যাগটি লেখাকে ইটালিক করার পাশাপাশি স্ক্রিন রিডারদের এর গুরুত্বের কথা জানায়।'
+                }
+            },
+            'lists-tables': {
+                id: 'lists-tables',
+                next: 'links-images',
+                prev: 'formatting',
+                en: {
+                    category: 'HTML Layout',
+                    title: 'Lists & Tables',
+                    body: `
+                        <p>HTML lists help organize data, and HTML tables arrange data in rows and columns.</p>
+                        <h3>Unordered vs Ordered Lists</h3>
+                        <p>Unordered lists use bullet points, while ordered lists use numbers. Items in both lists are wrapped in list item (<code>&lt;li&gt;</code>) tags.</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">HTML Code</span>
+                            &lt;ul&gt;<br>
+                            &nbsp;&nbsp;&lt;li&gt;First bullet item&lt;/li&gt;<br>
+                            &nbsp;&nbsp;&lt;li&gt;Second bullet item&lt;/li&gt;<br>
+                            &lt;/ul&gt;
+                        </div>
+                        <h3>Tables Structure</h3>
+                        <p>Tables are created using the <code>&lt;table&gt;</code> container, containing table rows (<code>&lt;tr&gt;</code>). Inside rows, we have headers (<code>&lt;th&gt;</code>) and table cell data (<code>&lt;td&gt;</code>).</p>
+                    `,
+                    demoHtml: `<ul><li>First bullet item</li><li>Second bullet item</li></ul><table border="1" style="border-collapse: collapse; margin-top: 10px; width: 100%; border: 1px solid #ddd;" cellpadding="8"><tr><th style="background:#f2f2f2; text-align:left;">Day</th><th style="background:#f2f2f2; text-align:left;">Topic</th></tr><tr><td>Mon</td><td>HTML Basics</td></tr></table>`,
+                    question: 'Which tag is used to define a cell in an HTML table row?',
+                    options: [
+                        { text: '<tr>', correct: false },
+                        { text: '<th>', correct: false },
+                        { text: '<td>', correct: true },
+                        { text: '<table>', correct: false }
+                    ],
+                    explanation: 'Correct! &lt;td&gt; stands for "table data" and represents a standard table cell.'
+                },
+                bn: {
+                    category: 'এইচটিএমএল লেআউট',
+                    title: 'লিস্ট ও টেবিল',
+                    body: `
+                        <p>তথ্যকে ক্রমানুসারে সাজাতে লিস্ট ব্যবহার করা হয় এবং সারি ও কলাম অনুযায়ী সাজাতে টেবিল ব্যবহার করা হয়।</p>
+                        <h3>আনঅর্ডারড বনাম অর্ডারড লিস্ট</h3>
+                        <p>আনঅর্ডারড লিস্টে বুলেট পয়েন্ট ব্যবহার হয় এবং অর্ডারড লিস্টে সংখ্যা ব্যবহার হয়। লিস্টের প্রতিটি আইটেমকে <code>&lt;li&gt;</code> ট্যাগ দিয়ে প্রকাশ করা হয়।</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">এইচটিএমএল কোড</span>
+                            &lt;ul&gt;<br>
+                            &nbsp;&nbsp;&lt;li&gt;প্রথম লিস্ট কন্টেন্ট&lt;/li&gt;<br>
+                            &nbsp;&nbsp;&lt;li&gt;দ্বিতীয় লিস্ট কন্টেন্ট&lt;/li&gt;<br>
+                            &lt;/ul&gt;
+                        </div>
+                        <h3>টেবিলের গঠন</h3>
+                        <p>টেবিল তৈরি করতে <code>&lt;table&gt;</code> ট্যাগ ব্যবহার করা হয়। এর ভেতর সারি তৈরির জন্য <code>&lt;tr&gt;</code>, হেডার তৈরির জন্য <code>&lt;th&gt;</code> এবং কলাম তৈরির জন্য <code>&lt;td&gt;</code> ব্যবহার করা হয়।</p>
+                    `,
+                    demoHtml: `<ul><li>প্রথম লিস্ট কন্টেন্ট</li><li>দ্বিতীয় লিস্ট কন্টেন্ট</li></ul><table border="1" style="border-collapse: collapse; margin-top: 10px; width: 100%; border: 1px solid #ddd;" cellpadding="8"><tr><th style="background:#f2f2f2; text-align:left;">দিন</th><th style="background:#f2f2f2; text-align:left;">বিষয়</th></tr><tr><td>সোম</td><td>এইচটিএমএল বেসিকস</td></tr></table>`,
+                    question: 'টেবিল সারির ভেতর একটি নির্দিষ্ট সেল বা কলাম তৈরি করতে কোন ট্যাগ ব্যবহার করা হয়?',
+                    options: [
+                        { text: '<tr>', correct: false },
+                        { text: '<th>', correct: false },
+                        { text: '<td>', correct: true },
+                        { text: '<table>', correct: false }
+                    ],
+                    explanation: 'সঠিক! &lt;td&gt; এর মানে হল "Table Data", যা প্রতিটি টেবিল সেলে তথ্য স্থাপনের জন্য ব্যবহৃত হয়।'
+                }
+            },
+            'links-images': {
+                id: 'links-images',
+                next: 'css-basics',
+                prev: 'lists-tables',
+                en: {
+                    category: 'HTML Media',
+                    title: 'Links & Images',
+                    body: `
+                        <p>Links make the web connected, and images make it visually engaging.</p>
+                        <h3>Links (Anchor Tags)</h3>
+                        <p>The <code>&lt;a&gt;</code> tag creates hyperlinks. It requires the <code>href</code> attribute to specify the destination URL.</p>
+                        <h3>Images</h3>
+                        <p>The <code>&lt;img&gt;</code> tag embeds images. It requires the <code>src</code> attribute to point to the file path or URL, and the <code>alt</code> attribute to describe the image content. <strong>Note:</strong> The image tag is self-closing (no closing tag needed).</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">HTML Code</span>
+                            &lt;a href="https://www.w3schools.com" target="_blank"&gt;Visit W3Schools Tutorial&lt;/a&gt;
+                        </div>
+                    `,
+                    demoHtml: `<a href="https://www.w3schools.com" target="_blank" style="color: #6366f1; text-decoration: underline;">Visit W3Schools Tutorial</a><br><br><img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=400" alt="Code on Screen" style="max-width:100%; height: auto; border-radius:4px; margin-top:10px;">`,
+                    question: 'Which attribute inside an <a> tag specifies the destination page URL?',
+                    options: [
+                        { text: 'src', correct: false },
+                        { text: 'link', correct: false },
+                        { text: 'href', correct: true },
+                        { text: 'target', correct: false }
+                    ],
+                    explanation: 'Correct! href stands for "hypertext reference" and holds the destination URL.'
+                },
+                bn: {
+                    category: 'এইচটিএমএল মিডিয়া',
+                    title: 'লিঙ্ক ও ইমেজ',
+                    body: `
+                        <p>লিঙ্ক ব্যবহার করে একটি ওয়েব পেজ এর সাথে অন্য ওয়েব পেজ সংযুক্ত করা হয় এবং ইমেজ ব্যবহার করে পেজকে আকর্ষণীয় করা হয়।</p>
+                        <h3>লিঙ্ক (অ্যাঙ্কর ট্যাগ)</h3>
+                        <p>লিঙ্ক তৈরির জন্য <code>&lt;a&gt;</code> ট্যাগ ব্যবহার করা হয়। এর ভেতর <code>href</code> অ্যাট্রিবিউট ব্যবহার করে গন্তব্যস্থলের লিঙ্ক দিতে হয়।</p>
+                        <h3>ইমেজ বা ছবি</h3>
+                        <p>ছবি যুক্ত করার জন্য <code>&lt;img&gt;</code> ট্যাগ ব্যবহৃত হয়। এতে ছবি প্রদর্শনের জন্য <code>src</code> (উৎস) এবং ছবি লোড না হলে টেক্সট দেখানোর জন্য <code>alt</code> (বিকল্প নাম) দিতে হয়। ছবি একটি সেলফ-ক্লোজিং ট্যাগ।</p>
+                    `,
+                    demoHtml: `<a href="https://www.w3schools.com" target="_blank" style="color: #6366f1; text-decoration: underline;">W3Schools ভিজিট করুন</a><br><br><img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=400" alt="Code on Screen" style="max-width:100%; height: auto; border-radius:4px; margin-top:10px;">`,
+                    question: '<a> ট্যাগের কোন অ্যাট্রিবিউট ব্যবহার করে গন্তব্যস্থলের ইউআরএল (URL) সেট করা হয়?',
+                    options: [
+                        { text: 'src', correct: false },
+                        { text: 'link', correct: false },
+                        { text: 'href', correct: true },
+                        { text: 'target', correct: false }
+                    ],
+                    explanation: 'সঠিক! href মানে "Hypertext Reference", যা লিঙ্কের গন্তব্য নির্ধারণ করে।'
+                }
+            },
+            'css-basics': {
+                id: 'css-basics',
+                next: 'js-basics',
+                prev: 'links-images',
+                en: {
+                    category: 'CSS Basics',
+                    title: 'CSS Styling Rules',
+                    body: `
+                        <p>CSS (Cascading Style Sheets) is what styles and formats our plain HTML structures.</p>
+                        <h3>CSS Syntax</h3>
+                        <p>A CSS rule contains a <strong>selector</strong> (tells the browser which HTML elements to style) and a <strong>declaration block</strong> containing key-value property statements.</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">CSS Code</span>
+                            h1 {<br>
+                            &nbsp;&nbsp;color: #8b5cf6;<br>
+                            &nbsp;&nbsp;font-family: Arial, sans-serif;<br>
+                            &nbsp;&nbsp;text-align: center;<br>
+                            }
+                        </div>
+                        <h3>Core Properties</h3>
+                        <ul>
+                            <li><code>color</code>: Sets text color.</li>
+                            <li><code>background-color</code>: Sets background fill color.</li>
+                            <li><code>padding</code>: Spacing inside the border of the element.</li>
+                            <li><code>margin</code>: Spacing outside the border of the element.</li>
+                        </ul>
+                    `,
+                    demoHtml: `<h1 style="color: #8b5cf6; font-family: Arial, sans-serif; text-align: center; margin: 0 0 10px 0;">Styled Header</h1><p style="background-color: #f3e8ff; border: 1px solid #d8b4fe; padding: 15px; border-radius: 6px; color: #581c87; font-family: sans-serif;">This paragraph has custom background padding, color, and border styling applied to it!</p>`,
+                    question: 'Which CSS property creates spacing inside the border of an element?',
+                    options: [
+                        { text: 'margin', correct: false },
+                        { text: 'padding', correct: true },
+                        { text: 'border', correct: false },
+                        { text: 'spacing', correct: false }
+                    ],
+                    explanation: 'Correct! Padding creates space inside the element border, while margin creates space outside.'
+                },
+                bn: {
+                    category: 'সিএসএস বেসিকস',
+                    title: 'সিএসএস পরিচিতি ও স্টাইল রুলস',
+                    body: `
+                        <p>CSS (Cascading Style Sheets) দিয়ে এইচটিএমএল এর সাধারণ কাঠামোকে স্টাইল এবং সুন্দরভাবে সাজানো হয়।</p>
+                        <h3>সিএসএস লেখার নিয়ম (Syntax)</h3>
+                        <p>একটি সিএসএস রুলে একটি <strong>সিলেক্টর</strong> থাকে (যা নির্ধারণ করে কোন উপাদান সাজানো হবে) এবং একটি <strong>ডিক্লেয়ারেশন ব্লক</strong> থাকে যেখানে প্রপার্টি ও ভ্যালু থাকে।</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">সিএসএস কোড</span>
+                            h1 {<br>
+                            &nbsp;&nbsp;color: #8b5cf6;<br>
+                            &nbsp;&nbsp;text-align: center;<br>
+                            }
+                        </div>
+                        <h3>প্রধান প্রধান প্রপার্টিসমূহ</h3>
+                        <ul>
+                            <li><code>color</code>: লেখার কালার পরিবর্তন করে।</li>
+                            <li><code>background-color</code>: এলিমেন্টের পেছনের ব্যাকগ্রাউন্ড কালার সেট করে।</li>
+                            <li><code>padding</code>: এলিমেন্ট বর্ডারের ভেতরের খালি জায়গা নির্ধারণ করে।</li>
+                            <li><code>margin</code>: এলিমেন্ট বর্ডারের বাইরের খালি জায়গা নির্ধারণ করে।</li>
+                        </ul>
+                    `,
+                    demoHtml: `<h1 style="color: #8b5cf6; font-family: Arial, sans-serif; text-align: center; margin: 0 0 10px 0;">স্টাইলড হেডার</h1><p style="background-color: #f3e8ff; border: 1px solid #d8b4fe; padding: 15px; border-radius: 6px; color: #581c87; font-family: sans-serif;">এই প্যারাগ্রাফটিতে কাস্টম ব্যাকগ্রাউন্ড কালার, প্যাডিং এবং বর্ডার স্টাইল ব্যবহার করা হয়েছে!</p>`,
+                    question: 'কোন সিএসএস প্রপার্টি দিয়ে এলিমেন্ট বর্ডারের ভেতরের খালি জায়গা (স্পেসিং) তৈরি করা হয়?',
+                    options: [
+                        { text: 'margin', correct: false },
+                        { text: 'padding', correct: true },
+                        { text: 'border', correct: false },
+                        { text: 'spacing', correct: false }
+                    ],
+                    explanation: 'সঠিক! প্যাডিং বর্ডারের ভেতরে খালি জায়গা তৈরি করে, আর মার্জিন বর্ডারের বাইরের দিকে স্পেস তৈরি করে।'
+                }
+            },
+            'js-basics': {
+                id: 'js-basics',
+                next: 'js-dom',
+                prev: 'css-basics',
+                en: {
+                    category: 'JavaScript Basics',
+                    title: 'Introduction to JavaScript',
+                    body: `
+                        <p>JavaScript (JS) is a programming language that adds interactivity, logic, and behavior to a website.</p>
+                        <h3>Variables & Declarations</h3>
+                        <p>Variables store data values. We declare variables using three main keywords:</p>
+                        <ul>
+                            <li><code>const</code>: Declares a read-only variable whose value cannot be changed (reassigned) later.</li>
+                            <li><code>let</code>: Declares a block-scoped variable that <strong>can</strong> be changed/reassigned later.</li>
+                            <li><code>var</code>: An older, function-scoped keyword.</li>
+                        </ul>
+                        <div class="code-demo">
+                            <span class="code-demo-label">JS Code</span>
+                            let score = 10;<br>
+                            score = 15; // Works fine!<br>
+                            const maxScore = 100;
+                        </div>
+                        <h3>Console Logging</h3>
+                        <p>We use <code>console.log()</code> to output messages to the developer console for testing.</p>
+                    `,
+                    demoHtml: `<div style="font-family: sans-serif; text-align: center;"><p style="font-size: 1.1rem; color: #1e293b;">Click to test a script function:</p><button onclick="alert('Hello from JavaScript variables!')" style="background:#6366f1; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-weight:600;">Run Alert Function</button></div>`,
+                    question: 'Which JS keyword is used to declare a variable that CAN be changed (reassigned) later?',
+                    options: [
+                        { text: 'const', correct: false },
+                        { text: 'let', correct: true },
+                        { text: 'static', correct: false },
+                        { text: 'final', correct: false }
+                    ],
+                    explanation: 'Correct! Variables declared with &lt;code&gt;let&lt;/code&gt; are block-scoped and can be reassigned multiple times.'
+                },
+                bn: {
+                    category: 'জাভাস্ক্রিপ্ট বেসিকস',
+                    title: 'জাভাস্ক্রিপ্ট পরিচিতি',
+                    body: `
+                        <p>JavaScript (JS) হল একটি প্রোগ্রামিং ভাষা যা একটি সাধারণ ওয়েবসাইটকে ইন্টারেক্টিভ ও ফাংশনাল করতে ব্যবহৃত হয়।</p>
+                        <h3>ভেরিয়েবল পরিচিতি ও ডিক্লেয়ারেশন</h3>
+                        <p>ভেরিয়েবল হল কন্টেইনার যাতে যেকোনো তথ্য সংরক্ষণ করা যায়। ভেরিয়েবল ঘোষণার ৩টি প্রধান কিওয়ার্ড:</p>
+                        <ul>
+                            <li><code>const</code>: অপরিবর্তনশীল ভেরিয়েবল তৈরি করে যার মান পরবর্তীতে বদলানো যায় না।</li>
+                            <li><code>let</code>: পরিবর্তনশীল ভেরিয়েবল তৈরি করে যার মান পরবর্তীতে পরিবর্তন করা যায়।</li>
+                            <li><code>var</code>: পূর্ববর্তী ভার্সনে ব্যবহৃত কিওয়ার্ড (যা বর্তমানে কম ব্যবহৃত হয়)।</li>
+                        </ul>
+                        <div class="code-demo">
+                            <span class="code-demo-label">জাভাস্ক্রিপ্ট কোড</span>
+                            let score = 10;<br>
+                            score = 15; // সঠিক!<br>
+                            const maxScore = 100;
+                        </div>
+                        <h3>কনসোল লগিং</h3>
+                        <p>ব্রাউজারের কনসোল বক্সে কোনো বার্তা প্রদর্শন করতে আমরা <code>console.log()</code> ব্যবহার করি যা ডেভেলপারদের পরীক্ষার জন্য প্রয়োজনীয়।</p>
+                    `,
+                    demoHtml: `<div style="font-family: sans-serif; text-align: center;"><p style="font-size: 1.1rem; color: #1e293b;">জাভাস্ক্রিপ্ট ফাংশন পরীক্ষা করার জন্য ক্লিক করুন:</p><button onclick="alert('জাভাস্ক্রিপ্ট ভেরিয়েবল এলার্ট সফল!')" style="background:#6366f1; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-weight:600;">অ্যালার্ট রান করুন</button></div>`,
+                    question: 'জাভাস্ক্রিপ্টে কোন কিওয়ার্ড ব্যবহার করে এমন ভেরিয়েবল ঘোষণা করা যায় যার মান পরবর্তীতে পরিবর্তন করা সম্ভব?',
+                    options: [
+                        { text: 'const', correct: false },
+                        { text: 'let', correct: true },
+                        { text: 'static', correct: false },
+                        { text: 'final', correct: false }
+                    ],
+                    explanation: 'সঠিক! &lt;code&gt;let&lt;/code&gt; কিওয়ার্ডের মাধ্যমে ঘোষিত ভেরিয়েবলের মান যেকোনো সময় বদলানো বা রি-অ্যাসাইন করা যায়।'
+                }
+            },
+            'js-dom': {
+                id: 'js-dom',
+                next: '',
+                prev: 'js-basics',
+                en: {
+                    category: 'JavaScript Basics',
+                    title: 'DOM Manipulation & Events',
+                    body: `
+                        <p>The <strong>DOM (Document Object Model)</strong> is the tree-like structure of HTML elements. JavaScript can manipulate (change) the DOM in real-time.</p>
+                        <h3>Selecting Elements</h3>
+                        <p>To change an element, we must first find it. The most common selector is:</p>
+                        <ul>
+                            <li><code>document.getElementById("my-id")</code>: Selects the single element with the specified id attribute.</li>
+                        </ul>
+                        <h3>Events & Click Actions</h3>
+                        <p>Interactive websites respond to user events like clicks. We register event listeners to execute code on trigger.</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">JS Code</span>
+                            myButton.addEventListener("click", function() {<br>
+                            &nbsp;&nbsp;myText.textContent = "Button was clicked!";<br>
+                            });
+                        </div>
+                    `,
+                    demoHtml: `<div style="font-family: sans-serif; text-align: center; padding:10px;"><p id="js-demo-text" style="font-size: 1.2rem; color: #475569; transition: color 0.3s;">I am a plain paragraph.</p><button id="js-demo-btn" onclick="document.getElementById('js-demo-text').textContent = 'Wow, JavaScript changed me!'; document.getElementById('js-demo-text').style.color = '#ec4899';" style="background:#ec4899; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-weight:600; margin-top: 10px;">Change Me! (Trigger JS)</button></div>`,
+                    question: 'Which method is used to retrieve a single element based on its unique ID attribute?',
+                    options: [
+                        { text: 'document.selectId()', correct: false },
+                        { text: 'document.getElementById()', correct: true },
+                        { text: 'document.querySelector(id)', correct: false },
+                        { text: 'document.findElement()', correct: false }
+                    ],
+                    explanation: 'Correct! document.getElementById() retrieves the unique DOM element matching the ID.'
+                },
+                bn: {
+                    category: 'জাভাস্ক্রিপ্ট বেসিকস',
+                    title: 'ডম ম্যানিপুলেশন ও ইভেন্টস',
+                    body: `
+                        <p>এইচটিএমএল এলিমেন্টের গাছ বা ট্রি-র মত বিন্যাসকে <strong>DOM (Document Object Model)</strong> বলে। জাভাস্ক্রিপ্ট ডম পরিবর্তনের মাধ্যমে ওয়েবসাইটের যেকোনো লেখা বা রং বদলাতে পারে।</p>
+                        <h3>এলিমেন্ট সিলেক্ট করা</h3>
+                        <p>কোনো এলিমেন্ট পরিবর্তন করার আগে তা খুঁজে বের করতে হয়। সবচেয়ে প্রচলিত পদ্ধতি:</p>
+                        <ul>
+                            <li><code>document.getElementById("my-id")</code>: এই পদ্ধতি দিয়ে ডকুমেন্টের নির্দিষ্ট আইডি যুক্ত উপাদানকে খুঁজে বের করা হয়।</li>
+                        </ul>
+                        <h3>ইভেন্টস এবং ক্লিক অ্যাকশন</h3>
+                        <p>ইন্টারেক্টিভ ওয়েবসাইটে ব্যবহারকারীর প্রতি সাড়া দেয়ার জন্য ইভেন্ট ব্যবহৃত হয়। যেমন- ক্লিক ইভেন্ট শোনার জন্য অ্যাড-ইভেন্ট-লিসেনার ব্যবহৃত হয়।</p>
+                        <div class="code-demo">
+                            <span class="code-demo-label">জাভাস্ক্রিপ্ট কোড</span>
+                            myButton.addEventListener("click", function() {<br>
+                            &nbsp;&nbsp;myText.textContent = "ক্লিক করা হয়েছে!";<br>
+                            });
+                        </div>
+                    `,
+                    demoHtml: `<div style="font-family: sans-serif; text-align: center; padding:10px;"><p id="js-demo-text" style="font-size: 1.2rem; color: #475569; transition: color 0.3s;">আমি একটি সাধারণ প্যারাগ্রাফ।</p><button id="js-demo-btn" onclick="document.getElementById('js-demo-text').textContent = 'ওয়াও, জাভাস্ক্রিপ্ট পরিবর্তন করেছে!'; document.getElementById('js-demo-text').style.color = '#ec4899';" style="background:#ec4899; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-weight:600; margin-top: 10px;">ক্লিক করুন! (রান জেএস)</button></div>`,
+                    question: 'কোনো নির্দিষ্ট আইডি (ID) সম্পন্ন এলিমেন্টকে জাভাস্ক্রিপ্টে খুঁজে পেতে নিচের কোন মেথডটি ব্যবহার করা হয়?',
+                    options: [
+                        { text: 'document.selectId()', correct: false },
+                        { text: 'document.getElementById()', correct: true },
+                        { text: 'document.querySelector(id)', correct: false },
+                        { text: 'document.findElement()', correct: false }
+                    ],
+                    explanation: 'সঠিক! document.getElementById() হচ্ছে ডকুমেন্টের নির্দিষ্ট আইডির এলিমেন্ট নির্বাচনের আদর্শ পদ্ধতি।'
+                }
+            }
+        };
+
+        // Get current lesson ID from query
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name) || 'tags-basics';
+        }
+
+        // Render slide
+        function loadLesson(lessonId) {
+            const lesson = LESSON_DATA[lessonId];
+            if (!lesson) return;
+
+            const lang = typeof EduHTML !== 'undefined' ? EduHTML.getLanguage() : 'en';
+            const langData = lesson[lang];
+
+            // Render controls translations
+            const dict = COMPONENT_TRANSLATIONS[lang];
+            document.getElementById('btn-back-dashboard').textContent = dict["btn-back-dashboard"];
+            document.getElementById('label-output').textContent = dict["label-output"];
+            document.getElementById('label-lesson-check').textContent = dict["label-lesson-check"];
+
+            // Render Lesson Contents
+            document.getElementById('lesson-category').textContent = langData.category;
+            document.getElementById('lesson-title').textContent = langData.title;
+            document.getElementById('lesson-body').innerHTML = langData.body;
+            
+            // Render Live Demo Output
+            const previewContainer = document.getElementById('lesson-preview-container');
+            const previewBox = document.getElementById('lesson-preview-box');
+            if (lesson[lang].demoHtml) {
+                previewBox.innerHTML = lesson[lang].demoHtml;
+                previewContainer.style.display = 'block';
+            } else {
+                previewContainer.style.display = 'none';
+            }
+
+            // Render Mini Check Question
+            const quizBox = document.getElementById('lesson-quiz-box');
+            const quizQuestion = document.getElementById('lesson-quiz-question');
+            const quizOptions = document.getElementById('lesson-quiz-options');
+            const quizFeedback = document.getElementById('lesson-quiz-feedback');
+
+            quizQuestion.textContent = langData.question;
+            quizOptions.innerHTML = '';
+            quizFeedback.style.display = 'none';
+
+            langData.options.forEach(opt => {
+                const btn = document.createElement('div');
+                btn.className = 'lesson-quiz-option';
+                btn.textContent = opt.text;
+                btn.onclick = () => checkAnswer(opt, btn, langData.explanation);
+                quizOptions.appendChild(btn);
+            });
+            quizBox.style.display = 'block';
+
+            // Navigation buttons updates
+            const prevBtn = document.getElementById('prev-lesson-btn');
+            const nextBtn = document.getElementById('next-lesson-btn');
+
+            if (lesson.prev) {
+                prevBtn.style.opacity = '1';
+                prevBtn.style.pointerEvents = 'auto';
+                prevBtn.textContent = dict["btn-prev"];
+                prevBtn.onclick = () => navigateToLesson(lesson.prev);
+            } else {
+                prevBtn.style.opacity = '0.4';
+                prevBtn.style.pointerEvents = 'none';
+                prevBtn.textContent = dict["btn-prev"];
+            }
+
+            if (lesson.next) {
+                nextBtn.textContent = dict["btn-next"];
+                nextBtn.onclick = () => navigateToLesson(lesson.next);
+            } else {
+                nextBtn.textContent = dict["btn-finish-quiz"];
+                nextBtn.onclick = () => window.location.href = 'quiz.html';
+            }
+        }
+
+        // Navigate
+        function navigateToLesson(lessonId) {
+            window.location.search = `?lesson=${lessonId}`;
+        }
+
+        // Check mini quiz options
+        function checkAnswer(option, element, explanation) {
+            const options = document.querySelectorAll('.lesson-quiz-option');
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt.textContent === option.text) {
+                    if (option.correct) {
+                        opt.classList.add('correct');
+                    } else {
+                        opt.classList.add('incorrect');
+                    }
+                }
+            });
+
+            const feedback = document.getElementById('lesson-quiz-feedback');
+            feedback.style.display = 'block';
+            
+            const lang = typeof EduHTML !== 'undefined' ? EduHTML.getLanguage() : 'en';
+            
+            if (option.correct) {
+                feedback.className = 'explanation-box correct';
+                feedback.innerHTML = explanation;
+                
+                const curId = getQueryParam('lesson');
+                if (typeof EduHTML !== 'undefined') {
+                    EduHTML.completeLesson(curId);
+                }
+            } else {
+                feedback.className = 'explanation-box incorrect';
+                feedback.innerHTML = lang === 'en' ? `❌ Incorrect.` : `❌ ভুল উত্তর।`;
+                setTimeout(() => {
+                    options.forEach(opt => {
+                        opt.style.pointerEvents = 'auto';
+                        opt.classList.remove('incorrect', 'correct');
+                    });
+                    feedback.style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        // Language change event subscription
+        window.onLanguageChange = function() {
+            loadLesson(getQueryParam('lesson'));
+        };
+
+        // Initialize rendering
+        const activeLessonId = getQueryParam('lesson');
+        loadLesson(activeLessonId);
+    </script>
+</body>
+</html>

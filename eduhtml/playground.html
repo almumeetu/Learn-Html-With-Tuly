@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Editor Playground - EduHTML</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- CodeMirror Assets CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-ocean.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+</head>
+<body style="height: 100vh; display: flex; flex-direction: column; overflow: hidden;">
+
+    <header>
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo-area">
+                    <a href="index.html">EduHTML <span data-translate="logo-subtitle">v1.0</span></a>
+                </div>
+                <nav class="menu-area">
+                    <ul>
+                        <li><a href="index.html" data-translate="nav-dashboard">Dashboard</a></li>
+                        <li><a href="lessons.html" data-translate="nav-lessons">Lessons</a></li>
+                        <li><a href="playground.html" data-translate="nav-playground">Playground</a></li>
+                        <li><a href="box-model.html" data-translate="nav-box-model">Box Model</a></li>
+                        <li><a href="quiz.html" data-translate="nav-quiz">Quiz</a></li>
+                    </ul>
+                </nav>
+                <div style="display: flex; align-items: center;">
+                    <div class="lang-switch-wrapper">
+                        <button class="lang-switch-btn" id="lang-switch-btn">🌐 <span id="lang-switch-btn-text">বাংলা</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button id="run-btn" style="background: linear-gradient(135deg, var(--success), #059669); font-weight:700;" data-translate="btn-playground-render">Render Live</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Playground Layout Wrapper -->
+    <div class="playground-layout">
+        
+        <!-- Left Side: Editors -->
+        <div class="editor-sidebar">
+            <!-- Templates Bar -->
+            <div class="templates-panel">
+                <div class="templates-header" data-translate="playground-template-header">Load Starter Template:</div>
+                <div class="templates-list">
+                    <button class="template-btn" onclick="loadTemplate('empty')" data-translate="tmpl-blank">📄 Blank Page</button>
+                    <button class="template-btn" onclick="loadTemplate('bio')" data-translate="tmpl-bio">👤 My Bio Card</button>
+                    <button class="template-btn" onclick="loadTemplate('button')" data-translate="tmpl-button">🖱️ Interactive Button</button>
+                    <button class="template-btn" onclick="loadTemplate('flexbox')" data-translate="tmpl-flexbox">📦 Flexbox Grid</button>
+                    <button class="template-btn" onclick="loadTemplate('colorswitcher')" data-translate="tmpl-switcher">🎨 Color Switcher</button>
+                    <button class="template-btn" onclick="loadTemplate('counter')" data-translate="tmpl-counter">🔢 Click Counter</button>
+                </div>
+            </div>
+
+            <!-- Editor Selection Tabs -->
+            <div class="editor-tabs">
+                <button class="tab-btn active" id="html-tab" onclick="switchTab('html')">index.html</button>
+                <button class="tab-btn" id="css-tab" onclick="switchTab('css')">style.css</button>
+                <button class="tab-btn" id="js-tab" onclick="switchTab('js')">script.js</button>
+            </div>
+
+            <!-- Textareas wrapper -->
+            <div class="editor-panes">
+                <div class="editor-pane active" id="html-pane">
+                    <textarea id="html-code" placeholder="Write your HTML code here..." spellcheck="false"></textarea>
+                    
+                    <!-- Quick HTML Toolbar -->
+                    <div class="toolbar">
+                        <span data-translate="toolbar-html">Insert HTML Tags:</span>
+                        <button class="tool-btn" onclick="insertTag('<h1>', '</h1>')">&lt;h1&gt;</button>
+                        <button class="tool-btn" onclick="insertTag('<p>', '</p>')">&lt;p&gt;</button>
+                        <button class="tool-btn" onclick="insertTag('<a href=&quot;https://&quot; target=&quot;_blank&quot;>', '</a>')">&lt;a&gt;</button>
+                        <button class="tool-btn" onclick="insertTag('<img src=&quot;https://&quot; alt=&quot;&quot;>', '')">&lt;img&gt;</button>
+                        <button class="tool-btn" onclick="insertTag('<ul>\n  <li>', '</li>\n</ul>')">&lt;ul&gt;</button>
+                        <button class="tool-btn" onclick="insertTag('<button class=&quot;btn&quot;>', '</button>')">&lt;button&gt;</button>
+                        <button class="tool-btn" onclick="insertTag('<div class=&quot;box&quot;>', '</div>')">&lt;div&gt;</button>
+                    </div>
+                </div>
+                
+                <div class="editor-pane" id="css-pane">
+                    <textarea id="css-code" placeholder="/* Write your CSS rules here... */" spellcheck="false"></textarea>
+                    
+                    <!-- Quick CSS Toolbar -->
+                    <div class="toolbar">
+                        <span data-translate="toolbar-css">Insert CSS Rules:</span>
+                        <button class="tool-btn" onclick="insertTag('color: ', ';')">color</button>
+                        <button class="tool-btn" onclick="insertTag('background-color: ', ';')">bg-color</button>
+                        <button class="tool-btn" onclick="insertTag('font-size: ', ';')">size</button>
+                        <button class="tool-btn" onclick="insertTag('padding: ', ';')">padding</button>
+                        <button class="tool-btn" onclick="insertTag('margin: ', ';')">margin</button>
+                        <button class="tool-btn" onclick="insertTag('border-radius: ', ';')">border-radius</button>
+                        <button class="tool-btn" onclick="insertTag('display: flex;\njustify-content: ', ';')">flex</button>
+                    </div>
+                </div>
+
+                <div class="editor-pane" id="js-pane">
+                    <textarea id="js-code" placeholder="// Write your JavaScript code here..." spellcheck="false"></textarea>
+                    
+                    <!-- Quick JS Toolbar -->
+                    <div class="toolbar">
+                        <span data-translate="toolbar-js">Insert JS Code:</span>
+                        <button class="tool-btn" onclick="insertTag('console.log(', ');')">log</button>
+                        <button class="tool-btn" onclick="insertTag('function name() {\n  ', '\n}')">function</button>
+                        <button class="tool-btn" onclick="insertTag('document.getElementById(\'', '\')')">getById</button>
+                        <button class="tool-btn" onclick="insertTag('addEventListener(\'click\', function() {\n  ', '\n});')">clickEvent</button>
+                        <button class="tool-btn" onclick="insertTag('let ', ' = ;')">let</button>
+                        <button class="tool-btn" onclick="insertTag('const ', ' = ;')">const</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Preview -->
+        <div class="preview-pane">
+            <div class="preview-header">
+                <span class="preview-title" id="preview-frame-title" data-translate="preview-frame-title">💻 LIVE OUTPUT VIEW</span>
+                <span class="preview-status" id="preview-status"></span>
+            </div>
+            <iframe class="preview-frame" id="preview-iframe"></iframe>
+        </div>
+
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Set page translation mappings registry
+        if (typeof EduHTML !== 'undefined') {
+            Object.assign(EduHTML.translations.en, {
+                "btn-playground-render": "Render Live",
+                "playground-template-header": "Load Starter Template:",
+                "tmpl-blank": "📄 Blank Page",
+                "tmpl-bio": "👤 My Bio Card",
+                "tmpl-button": "鼠标 Button",
+                "tmpl-flexbox": "📦 Flexbox Grid",
+                "tmpl-switcher": "🎨 Color Switcher",
+                "tmpl-counter": "🔢 Click Counter",
+                "toolbar-html": "Insert HTML Tags:",
+                "toolbar-css": "Insert CSS Rules:",
+                "toolbar-js": "Insert JS Code:",
+                "preview-frame-title": "💻 LIVE OUTPUT VIEW"
+            });
+            Object.assign(EduHTML.translations.bn, {
+                "btn-playground-render": "রান কোড",
+                "playground-template-header": "স্টার্টার টেমপ্লেট লোড করো:",
+                "tmpl-blank": "📄 খালি পেজ",
+                "tmpl-bio": "👤 বায়ো কার্ড",
+                "tmpl-button": "🖱️ বাটন স্টাইল",
+                "tmpl-flexbox": "📦 ফ্লেক্সবক্স গ্রিড",
+                "tmpl-switcher": "🎨 কালার সুইচার",
+                "tmpl-counter": "🔢 ক্লিক কাউন্টার",
+                "toolbar-html": "এইচটিএমএল ট্যাগ যোগ করো:",
+                "toolbar-css": "সিএসএস রুলস যোগ করো:",
+                "toolbar-js": "জাভাস্ক্রিপ্ট কোড যোগ করো:",
+                "preview-frame-title": "💻 লাইভ কন্টেন্ট প্রিভিউ"
+            });
+        }
+    </script>
+    <script src="assets/js/playground.js"></script>
+</body>
+</html>

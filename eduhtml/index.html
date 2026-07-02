@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHTML - Learn HTML & CSS Interactively</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo-area">
+                    <a href="index.html">EduHTML <span data-translate="logo-subtitle">v1.0</span></a>
+                </div>
+                <nav class="menu-area">
+                    <ul>
+                        <li><a href="index.html" data-translate="nav-dashboard">Dashboard</a></li>
+                        <li><a href="lessons.html" data-translate="nav-lessons">Lessons</a></li>
+                        <li><a href="playground.html" data-translate="nav-playground">Playground</a></li>
+                        <li><a href="box-model.html" data-translate="nav-box-model">Box Model</a></li>
+                        <li><a href="quiz.html" data-translate="nav-quiz">Quiz</a></li>
+                    </ul>
+                </nav>
+                <div style="display: flex; align-items: center;">
+                    <div class="lang-switch-wrapper">
+                        <button class="lang-switch-btn" id="lang-switch-btn">🌐 <span id="lang-switch-btn-text">বাংলা</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button><a href="playground.html" data-translate="btn-start-coding">Start Coding</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 data-translate="hero-title">Learn HTML, CSS & JS</h1>
+            <p data-translate="hero-subtitle">Welcome to your interactive coding companion! Follow the learning path below, practice in the live playground, and test your skills with interactive quizzes.</p>
+            <div class="hero-actions">
+                <a href="lessons.html" class="btn btn-primary" data-translate="btn-start-first-lesson">Start First Lesson</a>
+                <a href="playground.html" class="btn btn-outline" data-translate="btn-open-editor">Open Live Editor</a>
+            </div>
+        </section>
+
+        <!-- Main Dashboard Layout -->
+        <div class="dashboard-grid">
+            
+            <!-- Left Side: Roadmap Path -->
+            <div class="glass-card">
+                <h2 class="roadmap-title">
+                    <span>🗺️</span> <span data-translate="roadmap-title">Learning Roadmap</span>
+                </h2>
+                <div class="roadmap-list">
+                    <!-- Step 1 -->
+                    <a href="lessons.html?lesson=tags-basics" class="roadmap-step" id="roadmap-step-tags-basics">
+                        <div class="step-number">1</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-tags-title">HTML Tag Basics</h3>
+                            <p data-translate="step-tags-desc">Understand elements, head, body, headings, and paragraphs.</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-start">Start</div>
+                    </a>
+
+                    <!-- Step 2 -->
+                    <a href="lessons.html?lesson=formatting" class="roadmap-step" id="roadmap-step-formatting">
+                        <div class="step-number">2</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-formatting-title">Text Formatting</h3>
+                            <p data-translate="step-formatting-desc">Learn how to make text bold, italic, highlighted, and formatted.</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-locked">Locked</div>
+                    </a>
+
+                    <!-- Step 3 -->
+                    <a href="lessons.html?lesson=lists-tables" class="roadmap-step" id="roadmap-step-lists-tables">
+                        <div class="step-number">3</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-lists-title">Lists & Tables</h3>
+                            <p data-translate="step-lists-desc">Organize information using ordered/unordered lists and semantic tables.</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-locked">Locked</div>
+                    </a>
+
+                    <!-- Step 4 -->
+                    <a href="lessons.html?lesson=links-images" class="roadmap-step" id="roadmap-step-links-images">
+                        <div class="step-number">4</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-links-title">Links & Images</h3>
+                            <p data-translate="step-links-desc">Add anchors, relative/absolute links, and embed images with alt text.</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-locked">Locked</div>
+                    </a>
+
+                    <!-- Step 5 -->
+                    <a href="lessons.html?lesson=css-basics" class="roadmap-step" id="roadmap-step-css-basics">
+                        <div class="step-number">5</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-css-title">CSS Intro & Style Rules</h3>
+                            <p data-translate="step-css-desc">Connect styles, change colors, fonts, margins, and border models.</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-locked">Locked</div>
+                    </a>
+
+                    <!-- Step 6 -->
+                    <a href="lessons.html?lesson=js-basics" class="roadmap-step" id="roadmap-step-js-basics">
+                        <div class="step-number">6</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-js-basics-title">JavaScript Basics</h3>
+                            <p data-translate="step-js-basics-desc">Variables, data types, standard functions, and console statements.</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-locked">Locked</div>
+                    </a>
+
+                    <!-- Step 7 -->
+                    <a href="lessons.html?lesson=js-dom" class="roadmap-step" id="roadmap-step-js-dom">
+                        <div class="step-number">7</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-js-dom-title">DOM & Interactive Events</h3>
+                            <p data-translate="step-js-dom-desc">Click events, selectors, and altering HTML elements dynamically.</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-locked">Locked</div>
+                    </a>
+
+                    <!-- Quiz Step -->
+                    <a href="quiz.html" class="roadmap-step" id="roadmap-step-quiz">
+                        <div class="step-number">🏆</div>
+                        <div class="step-details">
+                            <h3 data-translate="step-quiz-title">Final Quiz Challenge</h3>
+                            <p data-translate="step-quiz-desc">Take the 10-question quiz to lock in your learning certification badge!</p>
+                        </div>
+                        <div class="step-badge" data-translate="status-locked">Locked</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Side: Stats & Achievements -->
+            <div class="stats-card-wrapper">
+                <div class="glass-card stats-card" style="margin-bottom: 2rem;">
+                    <div class="progress-header">
+                        <h3 data-translate="your-progress">Your Progress</h3>
+                        <span id="dashboard-progress-pct" style="font-weight: 800; color: var(--primary-light);">0%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="dashboard-progress-fill"></div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-info">
+                            <h4 data-translate="stat-lessons-completed">Lessons Complete</h4>
+                            <p id="completed-lessons-count">0/7</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <h4 data-translate="stat-quiz-score">Quiz Score</h4>
+                            <p id="quiz-completion-status" data-translate="stat-quiz-uncompleted">Not Completed</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon">🎖️</div>
+                        <div class="stat-info">
+                            <h4 data-translate="stat-badges-earned">Badges Earned</h4>
+                            <p id="unlocked-badges-count">1/6</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3 data-translate="achievements-title">Achievements</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;" data-translate="achievements-subtitle">Earn badges as you interact with all modules of the learning hub.</p>
+                    
+                    <div class="badges-grid">
+                        <!-- Badge 1: Welcome -->
+                        <div class="badge-item" id="badge-welcome">
+                            <div class="badge-icon">🌟</div>
+                            <span data-translate="badge-welcome-title">Welcome</span>
+                        </div>
+                        <!-- Badge 2: Lesson Champ -->
+                        <div class="badge-item" id="badge-lesson_champ">
+                            <div class="badge-icon">🏆</div>
+                            <span data-translate="badge-lesson-title">Lesson Champ</span>
+                        </div>
+                        <!-- Badge 3: Quiz Master -->
+                        <div class="badge-item" id="badge-quiz_master">
+                            <div class="badge-icon">🎓</div>
+                            <span data-translate="badge-quiz-title">Quiz Master</span>
+                        </div>
+                        <!-- Badge 4: Visualizer Pro -->
+                        <div class="badge-item" id="badge-visualizer_pro">
+                            <div class="badge-icon">📦</div>
+                            <span data-translate="badge-box-title">Box Master</span>
+                        </div>
+                        <!-- Badge 5: Code Ninja -->
+                        <div class="badge-item" id="badge-code_ninja">
+                            <div class="badge-icon">🥷</div>
+                            <span data-translate="badge-ninja-title">Code Ninja</span>
+                        </div>
+                        <!-- Badge 6: JS Wizard -->
+                        <div class="badge-item" id="badge-js_wizard">
+                            <div class="badge-icon">🧙‍♂️</div>
+                            <span data-translate="badge-js-title">JS Wizard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer style="border-top: 1px solid var(--border-color); padding: 2rem 0; text-align: center; margin-top: 4rem;">
+        <div class="container">
+            <p style="font-size: 0.85rem; color: var(--text-muted);" data-translate="footer-text">&copy; 2026 EduHTML. Created to teach HTML, CSS and JS dynamically.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

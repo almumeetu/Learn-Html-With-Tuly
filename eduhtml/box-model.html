@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Model Visualizer - EduHTML</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Override CSS pseudo-element labels to support translatable HTML spans */
+        .box-margin::before, .box-border::before, .box-padding::before, .box-content::before {
+            display: none !important;
+        }
+        
+        .box-label {
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            pointer-events: none;
+            line-height: 1;
+            letter-spacing: 0.05em;
+        }
+        
+        .box-margin > .box-label { color: #f59e0b; }
+        .box-border > .box-label { color: #818cf8; }
+        .box-padding > .box-label { color: #10b981; }
+        .box-content > .box-label { color: rgba(255, 255, 255, 0.8); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo-area">
+                    <a href="index.html">EduHTML <span data-translate="logo-subtitle">v1.0</span></a>
+                </div>
+                <nav class="menu-area">
+                    <ul>
+                        <li><a href="index.html" data-translate="nav-dashboard">Dashboard</a></li>
+                        <li><a href="lessons.html" data-translate="nav-lessons">Lessons</a></li>
+                        <li><a href="playground.html" data-translate="nav-playground">Playground</a></li>
+                        <li><a href="box-model.html" data-translate="nav-box-model">Box Model</a></li>
+                        <li><a href="quiz.html" data-translate="nav-quiz">Quiz</a></li>
+                    </ul>
+                </nav>
+                <div style="display: flex; align-items: center;">
+                    <div class="lang-switch-wrapper">
+                        <button class="lang-switch-btn" id="lang-switch-btn">🌐 <span id="lang-switch-btn-text">বাংলা</span></button>
+                    </div>
+                    <div class="header-button">
+                        <button><a href="playground.html" data-translate="btn-start-coding">Start Coding</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section" style="padding: 3rem 0 1rem 0;">
+            <h1 data-translate="box-title">CSS Box Model Simulator</h1>
+            <p data-translate="box-subtitle">Every HTML element is represented as a rectangular box. Adjust the sliders below to see how Margin, Border, Padding, and Content size interact!</p>
+        </section>
+
+        <!-- Visualizer Grid Layout -->
+        <div class="box-model-grid">
+            
+            <!-- Left Side: Sliders Controls -->
+            <div class="glass-card control-panel">
+                <!-- Content Sliders -->
+                <div class="control-group">
+                    <h3 data-translate="box-group-content">📦 Content Size</h3>
+                    <div class="slider-container">
+                        <div class="slider-row">
+                            <label for="slider-width" data-translate="box-label-width">Width</label>
+                            <input type="range" id="slider-width" min="80" max="250" value="120">
+                            <span id="val-width">120px</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="slider-height" data-translate="box-label-height">Height</label>
+                            <input type="range" id="slider-height" min="50" max="200" value="80">
+                            <span id="val-height">80px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Padding Slider -->
+                <div class="control-group">
+                    <h3 data-translate="box-group-padding">🟢 Padding (Inner Spacing)</h3>
+                    <div class="slider-container">
+                        <div class="slider-row">
+                            <label for="slider-padding" data-translate="box-label-padding-btn">Padding</label>
+                            <input type="range" id="slider-padding" min="0" max="60" value="20">
+                            <span id="val-padding">20px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Border Slider -->
+                <div class="control-group">
+                    <h3 data-translate="box-group-border">🔵 Border Thickness</h3>
+                    <div class="slider-container">
+                        <div class="slider-row">
+                            <label for="slider-border" data-translate="box-label-border-btn">Border</label>
+                            <input type="range" id="slider-border" min="0" max="20" value="5">
+                            <span id="val-border">5px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Margin Slider -->
+                <div class="control-group">
+                    <h3 data-translate="box-group-margin">🟡 Margin (Outer Spacing)</h3>
+                    <div class="slider-container">
+                        <div class="slider-row">
+                            <label for="slider-margin" data-translate="box-label-margin-btn">Margin</label>
+                            <input type="range" id="slider-margin" min="0" max="60" value="15">
+                            <span id="val-margin">15px</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Graphic Visualizer -->
+            <div class="visualizer-pane">
+                <div class="model-wrapper">
+                    <!-- Margin container -->
+                    <div class="box-margin" id="render-margin">
+                        <span class="box-label" data-translate="box-label-margin">MARGIN</span>
+                        <!-- Border container -->
+                        <div class="box-border" id="render-border">
+                            <span class="box-label" data-translate="box-label-border">BORDER</span>
+                            <!-- Padding container -->
+                            <div class="box-padding" id="render-padding">
+                                <span class="box-label" data-translate="box-label-padding">PADDING</span>
+                                <!-- Content box -->
+                                <div class="box-content" id="render-content">
+                                    <span class="box-label" data-translate="box-label-content">CONTENT</span>
+                                    <span id="render-dimensions">120 x 80</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generated CSS Code Box -->
+                <div class="box-code-output">
+                    <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; text-transform: uppercase; font-weight:700;" data-translate="box-code-title">Generated CSS Code:</div>
+                    <span style="color: #ec4899;">.my-element</span> {<br>
+                    &nbsp;&nbsp;<span style="color: #818cf8;">width</span>: <span id="code-width" style="color: #f59e0b;">120px</span>;<br>
+                    &nbsp;&nbsp;<span style="color: #818cf8;">height</span>: <span id="code-height" style="color: #f59e0b;">80px</span>;<br>
+                    &nbsp;&nbsp;<span style="color: #818cf8;">padding</span>: <span id="code-padding" style="color: #f59e0b;">20px</span>;<br>
+                    &nbsp;&nbsp;<span style="color: #818cf8;">border</span>: <span id="code-border" style="color: #f59e0b;">5px</span> solid <span style="color: #10b981;">#6366f1</span>;<br>
+                    &nbsp;&nbsp;<span style="color: #818cf8;">margin</span>: <span id="code-margin" style="color: #f59e0b;">15px</span>;<br>
+                    &nbsp;&nbsp;<span style="color: #818cf8;">background-color</span>: <span style="color: #10b981;">#ec4899</span>;<br>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Set visualizer translation maps
+        if (typeof EduHTML !== 'undefined') {
+            Object.assign(EduHTML.translations.en, {
+                "box-title": "CSS Box Model Simulator",
+                "box-subtitle": "Every HTML element is represented as a rectangular box. Adjust the sliders below to see how Margin, Border, Padding, and Content size interact!",
+                "box-group-content": "📦 Content Size",
+                "box-group-padding": "🟢 Padding (Inner Spacing)",
+                "box-group-border": "🔵 Border Thickness",
+                "box-group-margin": "🟡 Margin (Outer Spacing)",
+                "box-label-width": "Width",
+                "box-label-height": "Height",
+                "box-label-padding-btn": "Padding",
+                "box-label-border-btn": "Border",
+                "box-label-margin-btn": "Margin",
+                "box-label-margin": "MARGIN",
+                "box-label-border": "BORDER",
+                "box-label-padding": "PADDING",
+                "box-label-content": "CONTENT",
+                "box-code-title": "Generated CSS Code:"
+            });
+            Object.assign(EduHTML.translations.bn, {
+                "box-title": "সিএসএস বক্স মডেল সিমুলেটর",
+                "box-subtitle": "এইচটিএমএল এর প্রতিটি এলিমেন্টকে ব্রাউজার একটি চারকোনা বক্স হিসেবে হিসাব করে। মার্জিন, বর্ডার, প্যাডিং এবং কন্টেন্টের স্পেস বুঝতে স্লাইডারগুলো পরিবর্তন করুন!",
+                "box-group-content": "📦 কন্টেন্ট সাইজ",
+                "box-group-padding": "🟢 প্যাডিং (ভেতরের স্পেসিং)",
+                "box-group-border": "🔵 বর্ডার থিকনেস",
+                "box-group-margin": "🟡 মার্জিন (বাইরের স্পেসিং)",
+                "box-label-width": "প্রস্থ (Width)",
+                "box-label-height": "উচ্চতা (Height)",
+                "box-label-padding-btn": "প্যাডিং",
+                "box-label-border-btn": "বর্ডার",
+                "box-label-margin-btn": "মার্জিন",
+                "box-label-margin": "মার্জিন (MARGIN)",
+                "box-label-border": "বর্ডার (BORDER)",
+                "box-label-padding": "প্যাডিং (PADDING)",
+                "box-label-content": "কন্টেন্ট (CONTENT)",
+                "box-code-title": "জেনারেটেড সিএসএস কোড:"
+            });
+        }
+    </script>
+    <script src="assets/js/box-model.js"></script>
+</body>
+</html>
